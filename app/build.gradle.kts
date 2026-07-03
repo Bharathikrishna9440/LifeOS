@@ -36,14 +36,6 @@ android {
         storePassword = storePwd
         keyAlias = System.getenv("KEY_ALIAS") ?: "upload"
         keyPassword = keyPwd
-      } else {
-        val debugKeystore = file("${rootDir}/debug.keystore")
-        if (debugKeystore.exists() && debugKeystore.length() > 0) {
-          storeFile = debugKeystore
-          storePassword = "android"
-          keyAlias = "androiddebugkey"
-          keyPassword = "android"
-        }
       }
     }
   }
@@ -53,7 +45,12 @@ android {
       isCrunchPngs = false
       isMinifyEnabled = false
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-      signingConfig = signingConfigs.getByName("release")
+      val releaseConfig = signingConfigs.getByName("release")
+      if (releaseConfig.storeFile != null && releaseConfig.storeFile!!.exists()) {
+        signingConfig = releaseConfig
+      } else {
+        signingConfig = signingConfigs.getByName("debug")
+      }
     }
     debug {
       // Uses default debug signing
