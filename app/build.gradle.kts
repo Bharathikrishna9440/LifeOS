@@ -13,7 +13,7 @@ android {
   compileSdk { version = release(36) { minorApiLevel = 1 } }
 
   defaultConfig {
-    applicationId = "com.aistudio.lifeos.gxpqtr"
+    applicationId = "com.lifeos.com"
     minSdk = 24
     targetSdk = 36
     val customCode = project.findProperty("customVersionCode")?.toString()?.toIntOrNull()
